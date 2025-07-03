@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import "./App.css";
 
+// TODOS LOS PARÁMETROS EDITABLES POR EL ADMINISTRADOR
 const initialParams = {
+  cups_por_comunidad: 2.2,              // NUEVO: promedio de CUPS por comunidad
   pct_20td_menos_10kw: 0.45,
   pct_20td_mas_10kw: 0.40,
   pct_30td: 0.15,
-  consumo_20td_menos_10kw: 2400,
-  consumo_20td_mas_10kw: 2400,
-  consumo_30td: 7500,
-  precio_propuesto: 0.118998,
+  consumo_20td_menos_10kw: 4500,
+  consumo_20td_mas_10kw: 15000,
+  consumo_30td: 40000,
+  precio_propuesto: 0.155,
   honorario_20td_menos_10kw: 24.0,
   honorario_20td_mas_10kw: 73.2,
   honorario_30td: 186.0
 };
 
 function App() {
-  const [numCUPS, setNumCUPS] = useState("");
+  const [numComunidades, setNumComunidades] = useState("");
   const [precioActual, setPrecioActual] = useState("");
   const [resultados, setResultados] = useState(null);
   const [adminMode, setAdminMode] = useState(false);
@@ -23,18 +25,21 @@ function App() {
   const [params, setParams] = useState(initialParams);
 
   const handleCalcular = () => {
-    const totalCUPS = parseInt(numCUPS, 10);
+    const comunidades = parseFloat(numComunidades);
     const precio = parseFloat(precioActual);
 
-    if (isNaN(totalCUPS) || isNaN(precio)) {
+    if (isNaN(comunidades) || comunidades <= 0 || isNaN(precio) || precio <= 0) {
       alert("Introduce valores válidos");
       return;
     }
 
-    // Reparto de CUPS
+    // NUEVO: calcula CUPS a partir de comunidades * cups_por_comunidad
+    const totalCUPS = comunidades * params.cups_por_comunidad;
+
+    // Reparto de CUPS por tarifa
     const cups20tdMenos10kw = Math.round(totalCUPS * params.pct_20td_menos_10kw);
     const cups20tdMas10kw = Math.round(totalCUPS * params.pct_20td_mas_10kw);
-    const cups30td = totalCUPS - cups20tdMenos10kw - cups20tdMas10kw;
+    const cups30td = Math.round(totalCUPS - cups20tdMenos10kw - cups20tdMas10kw);
 
     // Consumos
     const consumo20tdMenos10kw = cups20tdMenos10kw * params.consumo_20td_menos_10kw;
@@ -55,6 +60,8 @@ function App() {
       honorarios20tdMenos10kw + honorarios20tdMas10kw + honorarios30td;
 
     setResultados({
+      comunidades,
+      totalCUPS,
       cups20tdMenos10kw,
       cups20tdMas10kw,
       cups30td,
@@ -87,23 +94,28 @@ function App() {
   };
 
   return (
-   <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-  <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200 }} />
-</div>
-      <h2>Cálculo online de honorarios y ahorro para Administradores de Fincas</h2>
+    <div className="container" style={{ fontFamily: "'Calibri', Arial, sans-serif" }}>
+      <div className="logo-centro">
+        <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200 }} />
+      </div>
+      <h2 style={{ textAlign: "center" }}>
+        Cálculo online de honorarios y ahorro para Administradores de Fincas
+      </h2>
       <div className="simulador">
         <div>
-          <label>Nº total de comunidades/CUPS: </label>
+          <label>Nº de comunidades: </label>
           <input
             type="number"
-            value={numCUPS}
-            onChange={(e) => setNumCUPS(e.target.value)}
+            min="1"
+            value={numComunidades}
+            onChange={(e) => setNumComunidades(e.target.value)}
           />
         </div>
         <div>
           <label>Precio de energía actual (€/kWh): </label>
           <input
             type="number"
+            min="0.01"
             value={precioActual}
             onChange={(e) => setPrecioActual(e.target.value)}
             step="0.001"
@@ -147,6 +159,10 @@ function App() {
         <div className="resultados" style={{ marginTop: 24 }}>
           <h3>Resultados</h3>
           <p>
+            <b>Total de comunidades:</b> {resultados.comunidades}
+            <br />
+            <b>Total de CUPS estimados:</b> {resultados.totalCUPS}
+            <br />
             <b>CUPS tarifa 2.0TD &lt;10kW:</b> {resultados.cups20tdMenos10kw}
             <br />
             <b>CUPS tarifa 2.0TD &gt;10kW:</b> {resultados.cups20tdMas10kw}
@@ -185,3 +201,4 @@ function App() {
 }
 
 export default App;
+
