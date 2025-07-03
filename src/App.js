@@ -87,8 +87,9 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200, marginBottom: 16 }} />
+   <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+  <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200 }} />
+</div>
       <h2>Cálculo online de honorarios y ahorro para Administradores de Fincas</h2>
       <div className="simulador">
         <div>
