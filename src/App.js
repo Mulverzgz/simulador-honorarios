@@ -17,6 +17,7 @@ const initialParams = {
 
 // Siempre formatea como moneda española (punto en miles, coma en decimales)
 function formatMoneda(valor) {
+  // Nos aseguramos de que siempre sea número
   return Number(valor).toLocaleString("es-ES", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -59,10 +60,10 @@ function App() {
     const gastoPropuesta = consumoTotal * params.precio_propuesto;
     const ahorro = gastoActual - gastoPropuesta;
 
-    // Honorarios por tarifa
-    const honorarios20tdMenos10kw = cups20tdMenos10kw * params.honorario_20td_menos_10kw;
-    const honorarios20tdMas10kw = cups20tdMas10kw * params.honorario_20td_mas_10kw;
-    const honorarios30td = cups30td * params.honorario_30td;
+    // Honorarios por tarifa (aseguramos que todo es número)
+    const honorarios20tdMenos10kw = Number(cups20tdMenos10kw) * Number(params.honorario_20td_menos_10kw);
+    const honorarios20tdMas10kw = Number(cups20tdMas10kw) * Number(params.honorario_20td_mas_10kw);
+    const honorarios30td = Number(cups30td) * Number(params.honorario_30td);
     const honorariosTotales =
       honorarios20tdMenos10kw + honorarios20tdMas10kw + honorarios30td;
 
@@ -232,7 +233,7 @@ Móvil 600 36 50 81
               <b>Honorarios TOTALES:</b> {formatMoneda(resultados.honorariosTotales)} €
             </span>
           </p>
-          {/* Firma con logo */}
+          {/* Firma con logo, sin punto y sin saludo */}
           <div style={{marginTop: 24, textAlign: "center"}}>
             <img
               src="/logo.png"
@@ -242,7 +243,7 @@ Móvil 600 36 50 81
             <div style={{ fontWeight: "bold", marginBottom: 2, marginTop: 4 }}>
               La 1ª comercializadora de los AAFF desde hace más de 10 años
             </div>
-            <div><br />
+            <div>
               Dpto. Ofertas | Multienergía Verde<br />
               Móvil 600 36 50 81
             </div>
