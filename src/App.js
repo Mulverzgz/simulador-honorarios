@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./App.css";
 
 const initialParams = {
@@ -15,13 +15,11 @@ const initialParams = {
   honorario_30td: 186.0
 };
 
-// Siempre formatea como moneda española (punto en miles, coma en decimales)
+// SIEMPRE muestra punto en miles, también en 4 cifras
 function formatMoneda(valor) {
-  // Nos aseguramos de que siempre sea número
-  return Number(valor).toLocaleString("es-ES", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const partes = Number(valor).toFixed(2).split(".");
+  partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${partes[0]},${partes[1]}`;
 }
 
 function App() {
@@ -31,6 +29,9 @@ function App() {
   const [adminMode, setAdminMode] = useState(false);
   const [adminPass, setAdminPass] = useState("");
   const [params, setParams] = useState(initialParams);
+
+  // Referencia a la caja de resultados para imprimir solo eso
+  const resultadosRef = useRef();
 
   const handleCalcular = () => {
     const comunidades = parseFloat(numComunidades);
@@ -60,7 +61,7 @@ function App() {
     const gastoPropuesta = consumoTotal * params.precio_propuesto;
     const ahorro = gastoActual - gastoPropuesta;
 
-    // Honorarios por tarifa (aseguramos que todo es número)
+    // Honorarios por tarifa
     const honorarios20tdMenos10kw = Number(cups20tdMenos10kw) * Number(params.honorario_20td_menos_10kw);
     const honorarios20tdMas10kw = Number(cups20tdMas10kw) * Number(params.honorario_20td_mas_10kw);
     const honorarios30td = Number(cups30td) * Number(params.honorario_30td);
@@ -84,9 +85,14 @@ function App() {
     });
   };
 
-  // GENERAR PDF
+  // Imprime SOLO la caja de resultados
   const handlePDF = () => {
+    const originalContents = document.body.innerHTML;
+    const printContents = resultadosRef.current.innerHTML;
+    document.body.innerHTML = printContents;
     window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload();
   };
 
   // ENVIAR POR EMAIL (abre correo predeterminado con resultados)
@@ -198,7 +204,11 @@ Móvil 600 36 50 81
       </div>
 
       {resultados && (
-        <div className="resultados" style={{ marginTop: 24 }}>
+        <div
+          className="resultados"
+          ref={resultadosRef}
+          style={{ marginTop: 24 }}
+        >
           <h3>Resultados</h3>
           <p>
             <b>Total de comunidades:</b> {resultados.comunidades}
@@ -248,7 +258,7 @@ Móvil 600 36 50 81
               Móvil 600 36 50 81
             </div>
           </div>
-          <div style={{ marginTop: 20 }}>
+          <div style={{ marginTop: 20, textAlign: "center" }}>
             <button onClick={handlePDF}>Descargar PDF</button>
             <button style={{marginLeft: 12}} onClick={handleEmail}>Enviar por email</button>
           </div>
