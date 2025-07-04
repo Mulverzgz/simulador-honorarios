@@ -2,6 +2,7 @@ body {
   background: #f8fdfa;
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 .container {
   max-width: 540px;
   margin: 32px auto;
@@ -11,11 +12,13 @@ body {
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 .logo-centro {
   display: flex;
   justify-content: center;
   margin-bottom: 16px;
 }
+
 .simulador input, .admin-panel input {
   margin-left: 10px;
   margin-bottom: 6px;
@@ -25,6 +28,7 @@ body {
   outline: none;
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 button {
   background: #bbea37;
   color: #193a20;
@@ -41,6 +45,7 @@ button {
 button:hover {
   background: #d0ff6a;
 }
+
 .resultados {
   background: #f5ffe7;
   border: 1px solid #bbea37;
@@ -48,6 +53,7 @@ button:hover {
   padding: 16px;
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 .admin-panel {
   margin-top: 18px;
   padding: 12px;
@@ -56,7 +62,27 @@ button:hover {
   border: 1px solid #bbea37;
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 .verde-lima {
   color: #7eb900;
   font-weight: bold;
 }
+
+/* ---- ESTILO SOLO PARA PDF/IMPRESIÓN ---- */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .resultados, .resultados * {
+    visibility: visible !important;
+  }
+  .resultados {
+    position: absolute !important;
+    left: 0; top: 0; width: 100vw;
+    background: #f5ffe7 !important;
+    box-shadow: none !important;
+    border: none !important;
+    font-size: 18px !important;
+  }
+}
+
