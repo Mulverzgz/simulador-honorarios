@@ -194,9 +194,11 @@ Móvil 600 36 50 81
         <div
           className="resultados"
           style={{ marginTop: 24 }}
-        <h2 className="solo-pdf-title">
-        Cálculo online de honorarios y ahorro para Administradores de Fincas
-        </h2>          
+        >
+          {/* TÍTULO SOLO PDF */}
+          <h2 className="solo-pdf-title">
+            Cálculo online de honorarios y ahorro para Administradores de Fincas
+          </h2>
           <h3>Resultados</h3>
           <p>
             <b>Total de comunidades:</b> {resultados.comunidades}
@@ -257,6 +259,7 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
 
 
