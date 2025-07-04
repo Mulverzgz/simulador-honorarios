@@ -102,6 +102,20 @@ button:hover {
   }
   .resultados button {
     display: none !important;
+    .solo-pdf-title {
+  display: none;
+}
+@media print {
+  .solo-pdf-title {
+    display: block !important;
+    font-size: 30px !important;
+    text-align: center !important;
+    margin-bottom: 18px !important;
+    font-weight: bold !important;
+    color: #193a20 !important; /* Puedes cambiar el color aquí si lo deseas */
+  }
+}
+
   }
 }
 
