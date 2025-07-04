@@ -9,13 +9,13 @@ const initialParams = {
   consumo_20td_menos_10kw: 2400,
   consumo_20td_mas_10kw: 2400,
   consumo_30td: 7500,
-  precio_propuesto: 0.155,
+  precio_propuesto: 0.118998,
   honorario_20td_menos_10kw: 24.0,
   honorario_20td_mas_10kw: 73.2,
   honorario_30td: 186.0
 };
 
-// Función de formateo de moneda correcta para España (punto miles, coma decimales)
+// Siempre formatea como moneda española (punto en miles, coma en decimales)
 function formatMoneda(valor) {
   return Number(valor).toLocaleString("es-ES", {
     minimumFractionDigits: 2,
@@ -110,8 +110,7 @@ Honorarios 3.0TD: ${formatMoneda(resultados.honorarios30td)} €
 Honorarios TOTALES: ${formatMoneda(resultados.honorariosTotales)} €
 
 ---
-La 1ª comercializadora de los AAFF desde hace más de 10 años.
-Un cordial saludo,
+La 1ª comercializadora de los AAFF desde hace más de 10 años
 Dpto. Ofertas | Multienergía Verde
 Móvil 600 36 50 81
     `);
@@ -259,5 +258,6 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
 
