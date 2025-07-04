@@ -230,7 +230,7 @@ Móvil 600 36 50 81
             <b>Honorarios 3.0TD:</b> {formatMoneda(resultados.honorarios30td)} €
             <br />
             <span className="verde-lima">
-              <b>Honorarios TOTALES:</b> {formatMoneda(resultados.honorariosTotales)} €
+              <b>Honorarios totales:</b> {formatMoneda(resultados.honorariosTotales)} €
             </span>
           </p>
           {/* Firma con logo, sin punto y sin saludo */}
