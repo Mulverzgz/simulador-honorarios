@@ -68,7 +68,7 @@ button:hover {
   font-weight: bold;
 }
 
-/* ---- ESTILO SOLO PARA PDF/IMPRESIÓN ---- */
+/* ---- SOLO PDF/IMPRESIÓN: OCULTA TODO MENOS RESULTADOS ---- */
 @media print {
   body * {
     visibility: hidden !important;
@@ -81,9 +81,16 @@ button:hover {
     left: 0; top: 0; width: 100vw;
     background: #f5ffe7 !important;
     box-shadow: none !important;
-    border: none !important;
+    border: 1px solid #bbea37 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
     font-size: 18px !important;
   }
+  /* OCULTA BOTONES PDF/EMAIL EN EL PDF */
+  .resultados button {
+    display: none !important;
+  }
 }
+
 
 
