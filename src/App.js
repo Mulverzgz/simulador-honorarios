@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 
-// TODOS LOS PARÁMETROS EDITABLES POR EL ADMINISTRADOR
 const initialParams = {
-  cups_por_comunidad: 2.2,              // Promedio de CUPS por comunidad
+  cups_por_comunidad: 2.2,
   pct_20td_menos_10kw: 0.45,
   pct_20td_mas_10kw: 0.40,
   pct_30td: 0.15,
@@ -18,7 +17,12 @@ const initialParams = {
 
 function formatMoneda(valor) {
   // Formatea con punto en miles y dos decimales
-  return valor.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return valor
+    .toLocaleString("es-ES", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+    .replace(/,/g, ""); // Opcional: quita la coma de miles, usa solo punto
 }
 
 function App() {
@@ -38,26 +42,21 @@ function App() {
       return;
     }
 
-    // Calcula CUPS a partir de comunidades * cups_por_comunidad
-    const totalCUPS = comunidades * params.cups_por_comunidad;
+    const totalCUPS = Math.round(comunidades * params.cups_por_comunidad);
 
-    // Reparto de CUPS por tarifa
     const cups20tdMenos10kw = Math.round(totalCUPS * params.pct_20td_menos_10kw);
     const cups20tdMas10kw = Math.round(totalCUPS * params.pct_20td_mas_10kw);
     const cups30td = Math.round(totalCUPS - cups20tdMenos10kw - cups20tdMas10kw);
 
-    // Consumos
     const consumo20tdMenos10kw = cups20tdMenos10kw * params.consumo_20td_menos_10kw;
     const consumo20tdMas10kw = cups20tdMas10kw * params.consumo_20td_mas_10kw;
     const consumo30td = cups30td * params.consumo_30td;
     const consumoTotal = consumo20tdMenos10kw + consumo20tdMas10kw + consumo30td;
 
-    // Cálculos
     const gastoActual = consumoTotal * precio;
     const gastoPropuesta = consumoTotal * params.precio_propuesto;
     const ahorro = gastoActual - gastoPropuesta;
 
-    // Honorarios por tarifa
     const honorarios20tdMenos10kw = cups20tdMenos10kw * params.honorario_20td_menos_10kw;
     const honorarios20tdMas10kw = cups20tdMas10kw * params.honorario_20td_mas_10kw;
     const honorarios30td = cups30td * params.honorario_30td;
@@ -77,7 +76,7 @@ function App() {
       honorarios20tdMenos10kw,
       honorarios20tdMas10kw,
       honorarios30td,
-      honorariosTotales
+      honorariosTotales,
     });
   };
 
@@ -107,7 +106,8 @@ Honorarios 2.0TD >10kW: ${formatMoneda(resultados.honorarios20tdMas10kw)} €
 Honorarios 3.0TD: ${formatMoneda(resultados.honorarios30td)} €
 Honorarios TOTALES: ${formatMoneda(resultados.honorariosTotales)} €
 
-Multienergía Verde, la 1ª comercializadora de los AAFF desde hace más de 10 años.
+---
+La 1ª comercializadora de los AAFF desde hace más de 10 años.
 Un cordial saludo,
 Dpto. Ofertas | Multienergía Verde
 Móvil 600 36 50 81
@@ -200,7 +200,7 @@ Móvil 600 36 50 81
           <p>
             <b>Total de comunidades:</b> {resultados.comunidades}
             <br />
-            <b>Total de CUPS estimados:</b> {formatMoneda(resultados.totalCUPS)}
+            <b>Total de CUPS estimados:</b> {resultados.totalCUPS}
             <br />
             <b>CUPS tarifa 2.0TD &lt;10kW:</b> {resultados.cups20tdMenos10kw}
             <br />
@@ -230,12 +230,20 @@ Móvil 600 36 50 81
               <b>Honorarios TOTALES:</b> {formatMoneda(resultados.honorariosTotales)} €
             </span>
           </p>
-          <div style={{marginTop: 12}}>
-            <b>Multienergía Verde, la 1ª comercializadora de los AAFF desde hace más de 10 años.</b>
-            <br />
-            Un cordial saludo,<br />
-            Dpto. Ofertas | Multienergía Verde<br />
-            Móvil 600 36 50 81
+          {/* Firma con logo */}
+          <div style={{marginTop: 24, textAlign: "center"}}>
+            <img
+              src="/logo.png"
+              alt="Logo Multienergía Verde"
+              style={{ maxWidth: 80, display: "block", margin: "0 auto 6px auto" }}
+            />
+            <div style={{ fontWeight: "bold", marginBottom: 2, marginTop: 4 }}>
+              La 1ª comercializadora de los AAFF desde hace más de 10 años.
+            </div>
+            <div>Un cordial saludo,<br />
+              Dpto. Ofertas | Multienergía Verde<br />
+              Móvil 600 36 50 81
+            </div>
           </div>
           <div style={{ marginTop: 20 }}>
             <button onClick={handlePDF}>Descargar PDF</button>
@@ -248,3 +256,4 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
