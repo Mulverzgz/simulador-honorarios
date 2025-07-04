@@ -101,7 +101,7 @@ Ahorro estimado: ${formatMoneda(resultados.ahorro)} €
 Honorarios 2.0TD <10kW: ${formatMoneda(resultados.honorarios20tdMenos10kw)} €
 Honorarios 2.0TD >10kW: ${formatMoneda(resultados.honorarios20tdMas10kw)} €
 Honorarios 3.0TD: ${formatMoneda(resultados.honorarios30td)} €
-Honorarios TOTALES: ${formatMoneda(resultados.honorariosTotales)} €
+Honorarios totales: ${formatMoneda(resultados.honorariosTotales)} €
 
 ---
 La 1ª comercializadora de los AAFF desde hace más de 10 años
