@@ -9,20 +9,18 @@ const initialParams = {
   consumo_20td_menos_10kw: 2400,
   consumo_20td_mas_10kw: 2400,
   consumo_30td: 7500,
-  precio_propuesto: 0.118998,
+  precio_propuesto: 0.155,
   honorario_20td_menos_10kw: 24.0,
   honorario_20td_mas_10kw: 73.2,
   honorario_30td: 186.0
 };
 
+// Función de formateo de moneda correcta para España (punto miles, coma decimales)
 function formatMoneda(valor) {
-  // Formatea con punto en miles y dos decimales
-  return valor
-    .toLocaleString("es-ES", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-    .replace(/,/g, ""); // Opcional: quita la coma de miles, usa solo punto
+  return Number(valor).toLocaleString("es-ES", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 function App() {
@@ -42,21 +40,26 @@ function App() {
       return;
     }
 
+    // Total CUPS estimados redondeado
     const totalCUPS = Math.round(comunidades * params.cups_por_comunidad);
 
+    // Reparto de CUPS por tarifa
     const cups20tdMenos10kw = Math.round(totalCUPS * params.pct_20td_menos_10kw);
     const cups20tdMas10kw = Math.round(totalCUPS * params.pct_20td_mas_10kw);
-    const cups30td = Math.round(totalCUPS - cups20tdMenos10kw - cups20tdMas10kw);
+    const cups30td = totalCUPS - cups20tdMenos10kw - cups20tdMas10kw;
 
+    // Consumos
     const consumo20tdMenos10kw = cups20tdMenos10kw * params.consumo_20td_menos_10kw;
     const consumo20tdMas10kw = cups20tdMas10kw * params.consumo_20td_mas_10kw;
     const consumo30td = cups30td * params.consumo_30td;
     const consumoTotal = consumo20tdMenos10kw + consumo20tdMas10kw + consumo30td;
 
+    // Cálculos
     const gastoActual = consumoTotal * precio;
     const gastoPropuesta = consumoTotal * params.precio_propuesto;
     const ahorro = gastoActual - gastoPropuesta;
 
+    // Honorarios por tarifa
     const honorarios20tdMenos10kw = cups20tdMenos10kw * params.honorario_20td_menos_10kw;
     const honorarios20tdMas10kw = cups20tdMas10kw * params.honorario_20td_mas_10kw;
     const honorarios30td = cups30td * params.honorario_30td;
@@ -256,4 +259,5 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
