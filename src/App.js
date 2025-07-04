@@ -240,9 +240,9 @@ Móvil 600 36 50 81
               style={{ maxWidth: 80, display: "block", margin: "0 auto 6px auto" }}
             />
             <div style={{ fontWeight: "bold", marginBottom: 2, marginTop: 4 }}>
-              La 1ª comercializadora de los AAFF desde hace más de 10 años.
+              La 1ª comercializadora de los AAFF desde hace más de 10 años
             </div>
-            <div>Un cordial saludo,<br />
+            <div><br />
               Dpto. Ofertas | Multienergía Verde<br />
               Móvil 600 36 50 81
             </div>
