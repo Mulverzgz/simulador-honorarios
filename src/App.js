@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 const initialParams = {
@@ -15,7 +15,7 @@ const initialParams = {
   honorario_30td: 186.0
 };
 
-// SIEMPRE muestra punto en miles, también en 4 cifras
+// Formato moneda SIEMPRE con punto en miles
 function formatMoneda(valor) {
   const partes = Number(valor).toFixed(2).split(".");
   partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -29,9 +29,6 @@ function App() {
   const [adminMode, setAdminMode] = useState(false);
   const [adminPass, setAdminPass] = useState("");
   const [params, setParams] = useState(initialParams);
-
-  // Referencia a la caja de resultados para imprimir solo eso
-  const resultadosRef = useRef();
 
   const handleCalcular = () => {
     const comunidades = parseFloat(numComunidades);
@@ -83,16 +80,6 @@ function App() {
       honorarios30td,
       honorariosTotales,
     });
-  };
-
-  // Imprime SOLO la caja de resultados
-  const handlePDF = () => {
-    const originalContents = document.body.innerHTML;
-    const printContents = resultadosRef.current.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
   };
 
   // ENVIAR POR EMAIL (abre correo predeterminado con resultados)
@@ -206,7 +193,6 @@ Móvil 600 36 50 81
       {resultados && (
         <div
           className="resultados"
-          ref={resultadosRef}
           style={{ marginTop: 24 }}
         >
           <h3>Resultados</h3>
@@ -259,7 +245,7 @@ Móvil 600 36 50 81
             </div>
           </div>
           <div style={{ marginTop: 20, textAlign: "center" }}>
-            <button onClick={handlePDF}>Descargar PDF</button>
+            <button onClick={() => window.print()}>Descargar PDF</button>
             <button style={{marginLeft: 12}} onClick={handleEmail}>Enviar por email</button>
           </div>
         </div>
