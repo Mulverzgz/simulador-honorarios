@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
 
+// TODOS LOS PARÁMETROS EDITABLES POR EL ADMINISTRADOR
 const initialParams = {
+  cups_por_comunidad: 2.2,              // Promedio de CUPS por comunidad
   pct_20td_menos_10kw: 0.45,
   pct_20td_mas_10kw: 0.40,
   pct_30td: 0.15,
@@ -14,27 +16,35 @@ const initialParams = {
   honorario_30td: 186.0
 };
 
+function formatMoneda(valor) {
+  // Formatea con punto en miles y dos decimales
+  return valor.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 function App() {
-  const [numCUPS, setNumCUPS] = useState("");
-  const [precioActual, setPrecioActual] = useState("");
+  const [numComunidades, setNumComunidades] = useState("");
+  const [precioActual, setPrecioActual] = useState("0.20");
   const [resultados, setResultados] = useState(null);
   const [adminMode, setAdminMode] = useState(false);
   const [adminPass, setAdminPass] = useState("");
   const [params, setParams] = useState(initialParams);
 
   const handleCalcular = () => {
-    const totalCUPS = parseInt(numCUPS, 10);
+    const comunidades = parseFloat(numComunidades);
     const precio = parseFloat(precioActual);
 
-    if (isNaN(totalCUPS) || isNaN(precio)) {
+    if (isNaN(comunidades) || comunidades <= 0 || isNaN(precio) || precio <= 0) {
       alert("Introduce valores válidos");
       return;
     }
 
-    // Reparto de CUPS
+    // Calcula CUPS a partir de comunidades * cups_por_comunidad
+    const totalCUPS = comunidades * params.cups_por_comunidad;
+
+    // Reparto de CUPS por tarifa
     const cups20tdMenos10kw = Math.round(totalCUPS * params.pct_20td_menos_10kw);
     const cups20tdMas10kw = Math.round(totalCUPS * params.pct_20td_mas_10kw);
-    const cups30td = totalCUPS - cups20tdMenos10kw - cups20tdMas10kw;
+    const cups30td = Math.round(totalCUPS - cups20tdMenos10kw - cups20tdMas10kw);
 
     // Consumos
     const consumo20tdMenos10kw = cups20tdMenos10kw * params.consumo_20td_menos_10kw;
@@ -55,6 +65,8 @@ function App() {
       honorarios20tdMenos10kw + honorarios20tdMas10kw + honorarios30td;
 
     setResultados({
+      comunidades,
+      totalCUPS,
       cups20tdMenos10kw,
       cups20tdMas10kw,
       cups30td,
@@ -67,6 +79,40 @@ function App() {
       honorarios30td,
       honorariosTotales
     });
+  };
+
+  // GENERAR PDF
+  const handlePDF = () => {
+    window.print();
+  };
+
+  // ENVIAR POR EMAIL (abre correo predeterminado con resultados)
+  const handleEmail = () => {
+    if (!resultados) return;
+    const subject = encodeURIComponent("Resultados Simulador Honorarios");
+    const body = encodeURIComponent(`
+Simulación para ${resultados.comunidades} comunidades (${resultados.totalCUPS} CUPS estimados):
+
+CUPS tarifa 2.0TD <10kW: ${resultados.cups20tdMenos10kw}
+CUPS tarifa 2.0TD >10kW: ${resultados.cups20tdMas10kw}
+CUPS tarifa 3.0TD: ${resultados.cups30td}
+
+Consumo total estimado: ${formatMoneda(resultados.consumoTotal)} kWh/año
+Gasto anual actual: ${formatMoneda(resultados.gastoActual)} €
+Gasto anual con propuesta: ${formatMoneda(resultados.gastoPropuesta)} €
+Ahorro estimado: ${formatMoneda(resultados.ahorro)} €
+
+Honorarios 2.0TD <10kW: ${formatMoneda(resultados.honorarios20tdMenos10kw)} €
+Honorarios 2.0TD >10kW: ${formatMoneda(resultados.honorarios20tdMas10kw)} €
+Honorarios 3.0TD: ${formatMoneda(resultados.honorarios30td)} €
+Honorarios TOTALES: ${formatMoneda(resultados.honorariosTotales)} €
+
+Multienergía Verde, la 1ª comercializadora de los AAFF desde hace más de 10 años.
+Un cordial saludo,
+Dpto. Ofertas | Multienergía Verde
+Móvil 600 36 50 81
+    `);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
   const handleAdminLogin = () => {
@@ -87,26 +133,28 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ fontFamily: "'Calibri', Arial, sans-serif" }}>
       <div className="logo-centro">
-        <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200, marginBottom: 16 }} />
+        <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200 }} />
       </div>
       <h2 style={{ textAlign: "center" }}>
         Cálculo online de honorarios y ahorro para Administradores de Fincas
       </h2>
       <div className="simulador">
         <div>
-          <label>Nº total de comunidades/CUPS: </label>
+          <label>Nº de comunidades: </label>
           <input
             type="number"
-            value={numCUPS}
-            onChange={(e) => setNumCUPS(e.target.value)}
+            min="1"
+            value={numComunidades}
+            onChange={(e) => setNumComunidades(e.target.value)}
           />
         </div>
         <div>
           <label>Precio de energía actual (€/kWh): </label>
           <input
             type="number"
+            min="0.01"
             value={precioActual}
             onChange={(e) => setPrecioActual(e.target.value)}
             step="0.001"
@@ -150,6 +198,10 @@ function App() {
         <div className="resultados" style={{ marginTop: 24 }}>
           <h3>Resultados</h3>
           <p>
+            <b>Total de comunidades:</b> {resultados.comunidades}
+            <br />
+            <b>Total de CUPS estimados:</b> {formatMoneda(resultados.totalCUPS)}
+            <br />
             <b>CUPS tarifa 2.0TD &lt;10kW:</b> {resultados.cups20tdMenos10kw}
             <br />
             <b>CUPS tarifa 2.0TD &gt;10kW:</b> {resultados.cups20tdMas10kw}
@@ -157,22 +209,26 @@ function App() {
             <b>CUPS tarifa 3.0TD:</b> {resultados.cups30td}
           </p>
           <p>
-            <b>Consumo total estimado:</b> {resultados.consumoTotal.toLocaleString()} kWh/año
+            <b>Consumo total estimado:</b> {formatMoneda(resultados.consumoTotal)} kWh/año
             <br />
-            <b>Gasto anual actual:</b> {resultados.gastoActual.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <b>Gasto anual actual:</b> {formatMoneda(resultados.gastoActual)} €
             <br />
-            <b>Gasto anual con propuesta:</b> {resultados.gastoPropuesta.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <b>Gasto anual con propuesta:</b> {formatMoneda(resultados.gastoPropuesta)} €
             <br />
-            <b>Ahorro estimado:</b> {resultados.ahorro.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <span className="verde-lima">
+              <b>Ahorro estimado:</b> {formatMoneda(resultados.ahorro)} €
+            </span>
           </p>
           <p>
-            <b>Honorarios 2.0TD &lt;10kW:</b> {resultados.honorarios20tdMenos10kw.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <b>Honorarios 2.0TD &lt;10kW:</b> {formatMoneda(resultados.honorarios20tdMenos10kw)} €
             <br />
-            <b>Honorarios 2.0TD &gt;10kW:</b> {resultados.honorarios20tdMas10kw.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <b>Honorarios 2.0TD &gt;10kW:</b> {formatMoneda(resultados.honorarios20tdMas10kw)} €
             <br />
-            <b>Honorarios 3.0TD:</b> {resultados.honorarios30td.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <b>Honorarios 3.0TD:</b> {formatMoneda(resultados.honorarios30td)} €
             <br />
-            <b>Honorarios TOTALES:</b> {resultados.honorariosTotales.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} €
+            <span className="verde-lima">
+              <b>Honorarios TOTALES:</b> {formatMoneda(resultados.honorariosTotales)} €
+            </span>
           </p>
           <div style={{marginTop: 12}}>
             <b>Multienergía Verde, la 1ª comercializadora de los AAFF desde hace más de 10 años.</b>
@@ -181,6 +237,10 @@ function App() {
             Dpto. Ofertas | Multienergía Verde<br />
             Móvil 600 36 50 81
           </div>
+          <div style={{ marginTop: 20 }}>
+            <button onClick={handlePDF}>Descargar PDF</button>
+            <button style={{marginLeft: 12}} onClick={handleEmail}>Enviar por email</button>
+          </div>
         </div>
       )}
     </div>
@@ -188,5 +248,3 @@ function App() {
 }
 
 export default App;
-
-
