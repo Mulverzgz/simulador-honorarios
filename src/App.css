@@ -3,12 +3,18 @@ body {
   font-family: 'Calibri', Arial, sans-serif;
 }
 .container {
-  max-width: 480px;
+  max-width: 540px;
   margin: 32px auto;
   padding: 24px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  font-family: 'Calibri', Arial, sans-serif;
+}
+.logo-centro {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
 }
 .simulador input, .admin-panel input {
   margin-left: 10px;
@@ -17,6 +23,7 @@ body {
   border-radius: 6px;
   border: 1px solid #bbea37;
   outline: none;
+  font-family: 'Calibri', Arial, sans-serif;
 }
 button {
   background: #bbea37;
@@ -29,6 +36,7 @@ button {
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.07);
   transition: background 0.2s;
+  font-family: 'Calibri', Arial, sans-serif;
 }
 button:hover {
   background: #d0ff6a;
@@ -38,6 +46,7 @@ button:hover {
   border: 1px solid #bbea37;
   border-radius: 10px;
   padding: 16px;
+  font-family: 'Calibri', Arial, sans-serif;
 }
 .admin-panel {
   margin-top: 18px;
@@ -45,4 +54,9 @@ button:hover {
   background: #e7fcd6;
   border-radius: 10px;
   border: 1px solid #bbea37;
+  font-family: 'Calibri', Arial, sans-serif;
+}
+.verde-lima {
+  color: #7eb900;
+  font-weight: bold;
 }
