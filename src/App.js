@@ -112,7 +112,7 @@ Móvil 600 36 50 81
   };
 
   const handleAdminLogin = () => {
-    if (adminPass === "admin123") {
+    if (adminPass === "Zaragoza1") {
       setAdminMode(true);
       setAdminPass("");
     } else {
