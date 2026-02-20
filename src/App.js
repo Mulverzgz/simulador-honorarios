@@ -9,7 +9,7 @@ const initialParams = {
   consumo_20td_menos_10kw: 2400,
   consumo_20td_mas_10kw: 2400,
   consumo_30td: 7500,
-  precio_propuesto: 0.118998,
+  precio_propuesto: 0.108998,
   honorario_20td_menos_10kw: 24.0,
   honorario_20td_mas_10kw: 73.2,
   honorario_30td: 186.0
@@ -259,6 +259,7 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
 
 
