@@ -1,32 +1,48 @@
 body {
   background: #f8fdfa;
   font-family: 'Calibri', Arial, sans-serif;
+  margin: 0;
+  padding: 24px;
 }
 
 .container {
-  max-width: 540px;
-  margin: 32px auto;
-  padding: 24px;
+  max-width: 760px;
+  margin: 24px auto;
+  padding: 32px 36px;
   background: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   font-family: 'Calibri', Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 .logo-centro {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  align-items: center;
+  margin-bottom: 22px;
 }
 
-.simulador input, .admin-panel input {
+.logo-centro img {
+  max-width: 240px;
+  width: 100%;
+  height: auto;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+.simulador input,
+.admin-panel input {
   margin-left: 10px;
-  margin-bottom: 6px;
-  padding: 4px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid #bbea37;
   outline: none;
   font-family: 'Calibri', Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 button {
@@ -34,14 +50,15 @@ button {
   color: #193a20;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
-  margin-top: 8px;
+  padding: 10px 18px;
+  margin-top: 10px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.07);
   transition: background 0.2s;
   font-family: 'Calibri', Arial, sans-serif;
 }
+
 button:hover {
   background: #d0ff6a;
 }
@@ -49,18 +66,21 @@ button:hover {
 .resultados {
   background: #f5ffe7;
   border: 1.5px solid #bbea37;
-  border-radius: 10px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
   font-family: 'Calibri', Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 .admin-panel {
   margin-top: 18px;
-  padding: 12px;
+  padding: 16px;
   background: #e7fcd6;
   border-radius: 10px;
   border: 1px solid #bbea37;
   font-family: 'Calibri', Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 .verde-lima {
@@ -72,6 +92,7 @@ button:hover {
 .solo-pdf-title {
   display: none;
 }
+
 @media print {
   .solo-pdf-title {
     display: block !important;
@@ -92,12 +113,15 @@ button:hover {
     padding: 0 !important;
     background: #f5ffe7 !important;
   }
+
   body * {
     visibility: hidden !important;
   }
+
   .resultados, .resultados * {
     visibility: visible !important;
   }
+
   .resultados {
     position: fixed !important;
     left: 0 !important;
@@ -115,12 +139,40 @@ button:hover {
     display: block !important;
     box-sizing: border-box !important;
   }
+
   .resultados button {
     display: none !important;
   }
 }
 
+/* ---- MÓVIL ---- */
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
 
+  .container {
+    max-width: 100%;
+    padding: 20px 16px;
+    margin: 12px auto;
+  }
 
+  .logo-centro img {
+    max-width: 180px;
+  }
 
+  .simulador input,
+  .admin-panel input {
+    width: 100%;
+    margin-left: 0;
+    display: block;
+  }
 
+  button {
+    width: auto;
+  }
+
+  .resultados {
+    padding: 18px;
+  }
+}
