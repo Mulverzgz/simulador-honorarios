@@ -112,7 +112,7 @@ Móvil 600 36 50 81
   };
 
   const handleAdminLogin = () => {
-    if (adminPass === "admin123") {
+    if (adminPass === "Zaragoza1") {
       setAdminMode(true);
       setAdminPass("");
     } else {
@@ -238,7 +238,7 @@ Móvil 600 36 50 81
             <img
               src="/logo.png"
               alt="Logo Multienergía Verde"
-              style={{ maxWidth: 80, display: "block", margin: "0 auto 6px auto" }}
+              style={{ maxWidth: 180, display: "block", margin: "0 auto 6px auto" }}
             />
             <div style={{ fontWeight: "bold", marginBottom: 2, marginTop: 4 }}>
               La 1ª comercializadora de los AAFF desde hace más de 10 años
@@ -259,6 +259,7 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
 
 
