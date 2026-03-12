@@ -24,9 +24,9 @@ body {
 }
 
 .logo-centro img {
-  max-width: 240px;
-  width: 100%;
-  height: auto;
+  width: 280px !important;
+  max-width: none !important;
+  height: auto !important;
 }
 
 h1, h2, h3 {
@@ -176,3 +176,4 @@ button:hover {
     padding: 18px;
   }
 }
+
