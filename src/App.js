@@ -130,13 +130,13 @@ Móvil 600 36 50 81
 
   return (
     <div className="container" style={{ fontFamily: "'Calibri', Arial, sans-serif" }}>
-      <div className="logo-centro">
-        <img src="Logotipo.png" alt="Logo Multienergía Verde">
-      </div>
-      <h2 style={{ textAlign: "center" }}>
-        Cálculo online de honorarios y ahorro para Administradores de Fincas
-      </h2>
-      <div className="simulador">
+  <div className="logo-centro">
+    <img src="Logotipo.png" alt="Logo Multienergía Verde" />
+  </div>
+  <h2 style={{ textAlign: "center" }}>
+    Cálculo online de honorarios y ahorro para Administradores de Fincas
+  </h2>
+  <div className="simulador">
         <div>
           <label>Nº de comunidades: </label>
           <input
