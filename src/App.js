@@ -101,7 +101,7 @@ Ahorro estimado: ${formatMoneda(resultados.ahorro)} €
 Honorarios 2.0TD <10kW: ${formatMoneda(resultados.honorarios20tdMenos10kw)} €
 Honorarios 2.0TD >10kW: ${formatMoneda(resultados.honorarios20tdMas10kw)} €
 Honorarios 3.0TD: ${formatMoneda(resultados.honorarios30td)} €
-Honorarios totales: ${formatMoneda(resultados.honorariosTotales)} €
+Honorarios TOTALES: ${formatMoneda(resultados.honorariosTotales)} €
 
 ---
 La 1ª comercializadora de los AAFF desde hace más de 10 años
@@ -112,7 +112,7 @@ Móvil 600 36 50 81
   };
 
   const handleAdminLogin = () => {
-    if (adminPass === "Zaragoza1") {
+    if (adminPass === "admin123") {
       setAdminMode(true);
       setAdminPass("");
     } else {
@@ -130,13 +130,13 @@ Móvil 600 36 50 81
 
   return (
     <div className="container" style={{ fontFamily: "'Calibri', Arial, sans-serif" }}>
-  <div className="logo-centro">
-    <img src="logotipo.png" alt="Logo Multienergía Verde" />
-  </div>
-  <h2 style={{ textAlign: "center" }}>
-    Cálculo online de honorarios y ahorro para Administradores de Fincas
-  </h2>
-  <div className="simulador">
+      <div className="logo-centro">
+        <img src="/logo.png" alt="Logo Multienergía Verde" style={{ maxWidth: 200 }} />
+      </div>
+      <h2 style={{ textAlign: "center" }}>
+        Cálculo online de honorarios y ahorro para Administradores de Fincas
+      </h2>
+      <div className="simulador">
         <div>
           <label>Nº de comunidades: </label>
           <input
@@ -230,13 +230,13 @@ Móvil 600 36 50 81
             <b>Honorarios 3.0TD:</b> {formatMoneda(resultados.honorarios30td)} €
             <br />
             <span className="verde-lima">
-              <b>Honorarios totales:</b> {formatMoneda(resultados.honorariosTotales)} €
+              <b>Honorarios TOTALES:</b> {formatMoneda(resultados.honorariosTotales)} €
             </span>
           </p>
           {/* Firma con logo, sin punto y sin saludo */}
           <div style={{marginTop: 24, textAlign: "center"}}>
             <img
-              src="/logotipo.png"
+              src="/logo.png"
               alt="Logo Multienergía Verde"
               style={{ maxWidth: 80, display: "block", margin: "0 auto 6px auto" }}
             />
@@ -259,6 +259,7 @@ Móvil 600 36 50 81
 }
 
 export default App;
+
 
 
 
